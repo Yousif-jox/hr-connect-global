@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 
 import heroTeam from "@/assets/hero-team.jpg";
 import outcomesDashboard from "@/assets/outcomes-dashboard.jpg";
@@ -7,8 +6,7 @@ import headshotLayla from "@/assets/headshot-layla.jpg";
 import headshotOmar from "@/assets/headshot-omar.jpg";
 import headshotDana from "@/assets/headshot-dana.jpg";
 import headshotRami from "@/assets/headshot-rami.jpg";
-
-type Lang = "en" | "ar";
+import { useLang } from "@/lib/lang";
 
 const copy = {
   en: {
@@ -16,7 +14,8 @@ const copy = {
     htmlLang: "en",
     nav: {
       services: "Services",
-      results: "Results",
+      jobs: "Open roles",
+      requirements: "Hiring requirements",
       clients: "Clients",
       contact: "Contact",
     },
@@ -28,8 +27,8 @@ const copy = {
       titleGold: "hundreds of teams",
       titleTail: " that grow with confidence.",
       sub: "Recruitment, payroll, compliance and training — run for you, so you can run the business.",
-      ctaPrimary: "Start your search",
-      ctaSecondary: "Download capabilities",
+      ctaPrimary: "Browse open roles",
+      ctaSecondary: "Hiring requirements",
       stats: [
         { value: "12k", label: "people placed" },
         { value: "98%", label: "payroll accuracy" },
@@ -117,7 +116,8 @@ const copy = {
     htmlLang: "ar",
     nav: {
       services: "خدماتنا",
-      results: "النتائج",
+      jobs: "الوظائف المتوفرة",
+      requirements: "شروط التوظيف",
       clients: "عملاؤنا",
       contact: "تواصل معنا",
     },
@@ -129,8 +129,8 @@ const copy = {
       titleGold: "مئات الفرق",
       titleTail: " التي تنمو بثقة.",
       sub: "التوظيف والرواتب والامتثال والتدريب — نديرها عنك، لتدير أنت العمل.",
-      ctaPrimary: "ابدأ معنا",
-      ctaSecondary: "حمّل ملف قدراتنا",
+      ctaPrimary: "تصفّح الوظائف المتوفرة",
+      ctaSecondary: "شروط التوظيف",
       stats: [
         { value: "12k", label: "شخص تم توظيفهم" },
         { value: "98%", label: "دقة الرواتب" },
@@ -244,13 +244,9 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [lang, setLang] = useState<Lang>("en");
+  const { lang, toggle } = useLang();
   const t = copy[lang];
 
-  useEffect(() => {
-    document.documentElement.lang = t.htmlLang;
-    document.documentElement.dir = t.dir;
-  }, [t.htmlLang, t.dir]);
 
   return (
     <div dir={t.dir} lang={t.htmlLang} className="min-h-screen bg-cream font-sans">
@@ -271,9 +267,12 @@ function Index() {
             <a href="#services" className="transition-colors hover:text-gold">
               {t.nav.services}
             </a>
-            <a href="#results" className="transition-colors hover:text-gold">
-              {t.nav.results}
-            </a>
+            <Link to="/jobs" className="transition-colors hover:text-gold">
+              {t.nav.jobs}
+            </Link>
+            <Link to="/requirements" className="transition-colors hover:text-gold">
+              {t.nav.requirements}
+            </Link>
             <a href="#clients" className="transition-colors hover:text-gold">
               {t.nav.clients}
             </a>
@@ -284,7 +283,7 @@ function Index() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => setLang(lang === "en" ? "ar" : "en")}
+              onClick={toggle}
               className="rounded-full border border-cream/20 px-4 py-1.5 text-xs font-semibold text-cream/70 transition-colors hover:border-gold hover:text-gold"
             >
               {t.langButton}
@@ -316,18 +315,18 @@ function Index() {
               {t.hero.sub}
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a
-                href="#contact"
+              <Link
+                to="/jobs"
                 className="rounded-full bg-gold px-6 py-3 text-sm font-bold text-navy transition-colors hover:bg-gold-soft"
               >
                 {t.hero.ctaPrimary}
-              </a>
-              <a
-                href="#services"
+              </Link>
+              <Link
+                to="/requirements"
                 className="rounded-full border border-cream/25 px-6 py-3 text-sm text-cream transition-colors hover:bg-cream/5"
               >
                 {t.hero.ctaSecondary}
-              </a>
+              </Link>
             </div>
 
             <div className="mt-10 grid max-w-xl grid-cols-3 gap-4">
@@ -418,6 +417,20 @@ function Index() {
                 <p className="mt-2 text-sm leading-relaxed text-slate-2">{item.desc}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              to="/jobs"
+              className="rounded-full bg-navy px-6 py-3 text-sm font-bold text-cream transition-colors hover:bg-navy-800"
+            >
+              {t.nav.jobs}
+            </Link>
+            <Link
+              to="/requirements"
+              className="rounded-full border border-ink/15 px-6 py-3 text-sm text-ink transition-colors hover:border-gold hover:text-gold"
+            >
+              {t.nav.requirements}
+            </Link>
           </div>
         </div>
       </section>
