@@ -470,11 +470,11 @@ function Index() {
               <figure key={item.name} className="rounded-2xl border border-ink/5 bg-white p-6">
                 <blockquote className="leading-relaxed text-ink/80">“{item.quote}”</blockquote>
                 <figcaption className="mt-5 flex items-center gap-3">
-                  <img
-                    src={testimonials[i].photo}
+                <img
+                    src={testimonials[i]!.photo}
                     alt={item.name}
-                    width={testimonials[i].width}
-                    height={testimonials[i].height}
+                    width={testimonials[i]!.width}
+                    height={testimonials[i]!.height}
                     loading="lazy"
                     className="size-10 rounded-full object-cover"
                   />
