@@ -14,7 +14,8 @@ const copy = {
     htmlLang: "en",
     nav: {
       services: "Services",
-      results: "Results",
+      jobs: "Open roles",
+      requirements: "Hiring requirements",
       clients: "Clients",
       contact: "Contact",
     },
@@ -115,7 +116,8 @@ const copy = {
     htmlLang: "ar",
     nav: {
       services: "خدماتنا",
-      results: "النتائج",
+      jobs: "الوظائف المتوفرة",
+      requirements: "شروط التوظيف",
       clients: "عملاؤنا",
       contact: "تواصل معنا",
     },
@@ -265,9 +267,12 @@ function Index() {
             <a href="#services" className="transition-colors hover:text-gold">
               {t.nav.services}
             </a>
-            <a href="#results" className="transition-colors hover:text-gold">
-              {t.nav.results}
-            </a>
+            <Link to="/jobs" className="transition-colors hover:text-gold">
+              {t.nav.jobs}
+            </Link>
+            <Link to="/requirements" className="transition-colors hover:text-gold">
+              {t.nav.requirements}
+            </Link>
             <a href="#clients" className="transition-colors hover:text-gold">
               {t.nav.clients}
             </a>
@@ -278,7 +283,7 @@ function Index() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => setLang(lang === "en" ? "ar" : "en")}
+              onClick={toggle}
               className="rounded-full border border-cream/20 px-4 py-1.5 text-xs font-semibold text-cream/70 transition-colors hover:border-gold hover:text-gold"
             >
               {t.langButton}
