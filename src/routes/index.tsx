@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import heroTeam from "@/assets/hero-team.jpg";
@@ -244,7 +244,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [lang, setLang] = useSearchStateFallback();
+  const [lang, setLang] = useState<Lang>("en");
   const t = copy[lang];
 
   useEffect(() => {
@@ -527,13 +527,4 @@ function Index() {
       </footer>
     </div>
   );
-}
-
-// Lightweight language state synced to the URL hash-free query (?lang=ar)
-// so a refresh or shared link keeps the chosen language.
-import { useQueryState } from "nuqs";
-import { parseAsStringLiteral } from "nuqs/server";
-
-function useSearchStateFallback() {
-  return useQueryState("lang", parseAsStringLiteral(["en", "ar"]).withDefault("en"));
 }
