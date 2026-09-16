@@ -1,0 +1,354 @@
+{
+  "project": {
+    "code": "HRC-WEB-001",
+    "nameAr": "موقع مريديان للخدمات البشرية",
+    "nameEn": "Meridian HR — Corporate Website (HR Connect Global)",
+    "shortName": "Meridian HR",
+    "repo": "hr-connect-global-main",
+    "client": "يوسف",
+    "docTypeAr": "مستند مواصفات المتطلبات",
+    "docTypeEn": "Software Requirements Specification (SRS)",
+    "version": "1.0",
+    "date": "2026-09-16",
+    "statusAr": "مسودة للمراجعة والاعتماد",
+    "purposeAr": "موقع تسويقي تعريفي (Marketing / Landing Site) لشركة خدمات موارد بشرية، بواجهة ثنائية اللغة (عربي / إنجليزي) مع مبدّل لغة، ويعرض الخدمات والنتائج وعملاء الشركة، وقائمة وظائف حقيقية بعروضها الكاملة، وصفحة شروط التوظيف.",
+    "scopeAr": "ثماني صفحات: الرئيسية (تعريفية بأقسامها)، الوظائف المتوفرة (٢٤ وظيفة بمتطلباتها ومهامها)، صفحة تفاصيل لكل وظيفة (٢٤ صفحة ديناميكية) تتضمّن نموذج تقديم فعلياً برفع السيرة الذاتية، شروط التوظيف، عن الشركة، الأسئلة الشائعة، سياسة الخصوصية، وشروط الاستخدام — مع خريطة موقع تُولَّد آلياً من بيانات الوظائف وتنقّل موحّد يصل لكل الصفحات.",
+    "outOfScopeAr": [
+      "لوحة تحكم إدارية (CMS) لإدارة الوظائف من الواجهة — التعديل يتم في ملف البيانات ثم إعادة البناء.",
+      "قاعدة بيانات لتخزين طلبات التقديم — الطلب يُسلَّم بالبريد مع مرفق السيرة الذاتية ولا يُخزَّن في قاعدة بيانات داخل الموقع.",
+      "حسابات مستخدمين أو تسجيل دخول للمرشحين.",
+      "لوحة تتبع طلبات التقديم للمرشح (Applicant Tracking).",
+      "نظام دفع أو مدفوعات إلكترونية.",
+      "نظام إدارة علاقات العملاء (CRM) لتسجيل العملاء المحتملين."
+    ],
+    "assumptionsAr": [
+      "النطاق الحالي عام (Global) واللغتان الرسميتان هما العربية والإنجليزية، على أن تكون العربية هي لغة العرض الافتراضية لجمهور الخليج ومصر.",
+      "العملاء والأسماء والشهادات والأرقام المعروضة محتوى تسويقي تمثيلي (Demo content) وليست بيانات شركة حقيقية — تحتاج تأكيداً قبل النشر العام.",
+      "صور الفريق والشهادات الحالية هي صور مُورَّدة مع المشروع (Stock/Generated) ولا تمثل أشخاصاً حقيقيين.",
+      "بريد التواصل بيعمل عبر mailto: ولا يحتاج خدمة خلفية.",
+      "الاستضافة المستهدفة هي بيئة Cloudflare (مخرج البناء الحالي) أو أي استضافة تدعم خرج Nitro.",
+      "الوظائف المنشورة تمثّل ٢٤ فرصة نشطة كما تنص الصفحة، ويتم تحديثها يدوياً أسبوعياً."
+    ]
+  },
+
+  "designTokens": [
+    { "token": "--navy", "oklch": "oklch(0.270 0.060 253.9)", "hex": "#0F2743", "usageAr": "الخلفية الأساسية للأقسام الداكنة: الترويسة، الواجهة الرئيسية، أقسام النتائج والعمليات، وبطاقة الدعوة للتواصل." },
+    { "token": "--navy-800", "oklch": "oklch(0.342 0.076 251.0)", "hex": "#163A5E", "usageAr": "الأزرق الداكن الثانوي: خلفية قسم النتائج وحالات التحويم على الأزرار الداكنة." },
+    { "token": "--navy-700", "oklch": "oklch(0.412 0.091 250.6)", "hex": "#1F4D7A", "usageAr": "درجة أفتح محفوظة للتحويم والحالات النشطة عند الحاجة." },
+    { "token": "--gold", "oklch": "oklch(0.737 0.133 87.8)", "hex": "#CDA434", "usageAr": "اللون المميز للعلامة: الأزرار الرئيسية، الكلمات المميزة في العنوان، أيقونات الشعار، والنقاط المرقّمة في القوائم." },
+    { "token": "--gold-soft", "oklch": "oklch(0.872 0.078 92.1)", "hex": "#E7D49A", "usageAr": "الذهبي الفاتح للنصوص الصغيرة فوق الخلفية الداكنة وعند التحويم على الأزرار الذهبية." },
+    { "token": "--cream", "oklch": "oklch(0.967 0.008 91.5)", "hex": "#F6F4EE", "usageAr": "خلفية الموقع الأساسية والصفحات الفاتحة والنصوص فوق الأزرق الداكن." },
+    { "token": "--mist", "oklch": "oklch(0.960 0.009 258.3)", "hex": "#EEF2F8", "usageAr": "خلفية ثانوية باردة: قسم عملاؤنا، القوائم الرمزية، وحقول المعلومات البسيطة." },
+    { "token": "--ink", "oklch": "oklch(0.239 0.032 252.9)", "hex": "#14202E", "usageAr": "لون النص الأساسي فوق الخلفيات الفاتحة، والحدود بنسبة شفافية منخفضة." },
+    { "token": "--slate-2", "oklch": "oklch(0.522 0.036 252.9)", "hex": "#5B6B7E", "usageAr": "النصوص الثانوية والوصف والمسميات الصغيرة (Labels)." }
+  ],
+
+  "typography": [
+    { "role": "Display (EN)", "fonts": "Fraunces (variable, opsz 9–144)", "usageAr": "العناوين الكبيرة والأرقام في قسم النتائج — يمنح الموقع طابعاً تحريرياً رصيناً." },
+    { "role": "Body (EN)", "fonts": "Manrope 400 / 500 / 600 / 700 / 800", "usageAr": "نصوص الفقرات والأزرار والتنقل والجداول." },
+    { "role": "Body (AR)", "fonts": "Tajawal 400 / 500 / 700 / 800", "usageAr": "كل النصوص العربية — يُطبَّق تلقائياً عند تفعيل RTL، ويستبدل خطّي العرض والنص معاً." },
+    { "role": "RTL override", "fonts": "[dir=\"rtl\"] { --font-sans: Tajawal…; --font-display: Tajawal…; }", "usageAr": "قاعدة تبديل الخطوط عند العربية، وبالتالي لا يحتاج أي مكوّن لمعالجة خاصة." },
+    { "role": "Loading", "fonts": "Google Fonts — display=swap", "usageAr": "تُحمَّل الخطوط خارجياً بتبديل عرض لتجنّب حجب النص، ويجب تقييم استضافتها محلياً قبل الإطلاق لتحسين الأداء والخصوصية." }
+  ],
+
+  "components": [
+    { "name": "Primary pill button (gold)", "classes": "rounded-full bg-gold px-6 py-3 text-sm font-bold text-navy hover:bg-gold-soft", "usageAr": "الإجراء الرئيسي: تصفّح الوظائف، احجز مكالمة." },
+    { "name": "Secondary pill button (outline)", "classes": "rounded-full border border-cream/25 px-6 py-3 text-sm text-cream hover:border-gold hover:text-gold", "usageAr": "الإجراء الثانوي فوق الخلفية الداكنة: شروط التوظيف." },
+    { "name": "Dark pill button", "classes": "rounded-full bg-navy px-5 py-2.5 text-sm font-bold text-cream hover:bg-navy-800", "usageAr": "إجراء داخل البطاقات الفاتحة: قدّم الآن." },
+    { "name": "Content card", "classes": "rounded-2xl border border-ink/5 bg-white p-6 hover:-translate-y-1", "usageAr": "البطاقات: الخدمات، الوظائف، شهادات العملاء." },
+    { "name": "Eyebrow label", "classes": "text-xs font-semibold tracking-[0.18em] text-gold", "usageAr": "تسمية صغيرة فوق كل عنوان قسم." },
+    { "name": "Dot list item", "classes": "flex gap-3 text-sm leading-relaxed text-ink/80 + span.mt-2.size-1.5.shrink-0.rounded-full.bg-gold", "usageAr": "قوائم نقطية بنقطة دائرية ٦ بكسل — ذهبية أو زرقاء داكنة." },
+    { "name": "Department pill", "classes": "w-fit rounded-full bg-mist px-3 py-1 text-xs font-semibold text-navy", "usageAr": "وسم صغير على بطاقة الوظيفة يوضّح القسم." },
+    { "name": "Meta row (dl)", "classes": "grid grid-cols-3 gap-3 border-t border-ink/5 pt-4 text-xs", "usageAr": "ثلاث معلومات مختصرة: النوع، الموقع، الخبرة." },
+    { "name": "Collapsible disclosure", "classes": "details.group + summary.flex.cursor-pointer.list-none.items-center.justify-between", "usageAr": "عنصر قابل للطي لعرض تفاصيل الوظيفة، مع أيقونة سهم تدور عند الفتح." },
+    { "name": "Numbered stat", "classes": "font-display text-5xl font-bold text-gold + border-t-2 border-gold", "usageAr": "أرقام النتائج والإحصائيات." },
+    { "name": "Form field", "classes": "rounded-xl border border-ink/10 bg-cream/60 px-4 py-3 text-sm outline-none focus:border-gold focus:bg-white", "usageAr": "حقول نموذج التقديم — تستخدم حدود ink وتركيز ذهبي وبنية دائرية مطابقة لبقية المكونات." },
+    { "name": "Gold band CTA", "classes": "section.bg-gold > div.max-w-7xl.px-6.py-16 > div.grid.rounded-3xl.bg-navy.px-8.py-12.md:grid-cols-2", "usageAr": "كتلة الدعوة للتواصل في نهاية كل صفحة — نفس بنية القسم الختامي في الصفحة الرئيسية." },
+    { "name": "Legal prose", "classes": "max-w-3xl + h2.text-lg.font-bold.text-navy + p.text-sm.leading-relaxed.text-ink/80", "usageAr": "صفحات السياسات — عرض قراءة أضيق بدون تغيير في الرموز." }
+  ],
+
+  "pages": [
+    {
+      "route": "/",
+      "nameAr": "الرئيسية — الصفحة التعريفية",
+      "sections": [
+        { "name": "Header", "detailAr": "ترويسة داكنة ثابتة المظهر: شعار مربع ذهبي بحرف M، الاسم بالعربية والإنجليزية، قائمة تنقل (خدماتنا، الوظائف المتوفرة، شروط التوظيف، عملاؤنا، تواصل معنا)، زر تبديل اللغة، وزر «احجز مكالمة»." },
+        { "name": "Hero", "detailAr": "شارة صغيرة، عنوان من ثلاثة أجزاء يبرز الجزء الأوسط بالذهبي، فقرة تعريفية، زرّان (تصفّح الوظائف / شروط التوظيف)، ثلاث إحصائيات بحدود ذهبية علوية، صورة فريق بنسبة 4:5، وبطاقة اقتباس من عميل بصورته واسمه ووظيفته." },
+        { "name": "Trusted-by strip", "detailAr": "شريط رقيق بأسماء العملاء: Northgate، Velaris، Atlas & Co، Meridian Foods، Corelink." },
+        { "name": "Services", "detailAr": "أربع بطاقات خدمة مرقّمة (01–04): التوظيف، الرواتب، الامتثال، التدريب — لكل بطاقة مربّع رقم بخلفية mist وعنوان ووصف." },
+        { "name": "Outcomes", "detailAr": "قسم داكن بأربع إحصائيات كبيرة بالذهبي (18d، 98%، 3.2x، 0) مع صورة لوحة تحليلات بنسبة 5:4." },
+        { "name": "Clients", "detailAr": "ثلاث شهادات عملاء بخلفية mist على ثلاث بطاقات بيضاء، لكل بطاقة اقتباس وصورة واسم ووظيفة." },
+        { "name": "CTA", "detailAr": "شريط ذهبي يحيط ببطاقة زرقاء داكنة: عنوان، وصف، زر «احجز جلسة ٣٠ دقيقة» وبريد hello@meridianhr.com — كلاهما mailto." },
+        { "name": "Footer", "detailAr": "ترويسة سفلية داكنة: اسم العلامة وسطر الحقوق مع مجالات الخدمة الأربعة." }
+      ]
+    },
+    {
+      "route": "/jobs",
+      "nameAr": "الوظائف المتوفرة",
+      "sections": [
+        { "name": "Page hero", "detailAr": "شارة (OPEN ROLES)، عنوان الصفحة، وصف، زر ينقل لصفحة شروط التوظيف، وسطر يوضّح عدد الفرص النشطة مع تعديل أسبوعي." },
+        { "name": "Jobs grid", "detailAr": "شبكة بعمودين على الشاشات المتوسطة وأكثر وعمود واحد على الموبايل، وتضم ٢٤ بطاقة وظيفة." },
+        { "name": "Job card", "detailAr": "وسم القسم، عنوان الوظيفة، وصف مختصر، صف معلومات من ثلاث خانات (نوع الدوام، الموقع، الخبرة)، ثم عنصر «تفاصيل الوظيفة» القابل للطي ومحتواه قائمتان (المتطلبات بنقاط ذهبية، والمهام الأساسية بنقاط زرقاء داكنة)، ثم زر «قدّم الآن»." },
+        { "name": "Footer", "detailAr": "نفس الترويسة السفلية المشتركة." }
+      ]
+    },
+    {
+      "route": "/requirements",
+      "nameAr": "شروط التوظيف",
+      "sections": [
+        { "name": "Page hero", "detailAr": "شارة (شروط التوظيف)، عنوان، وصف، وزر ينقل إلى صفحة الوظائف." },
+        { "name": "General requirements + Documents", "detailAr": "بطاقة بيضاء عريضة بعمودين تحتوي قائمة الشروط العامة (٦ بنود بنقاط ذهبية)، وبطاقة جانبية بخلفية mist تحتوي قائمة المستندات المطلوبة (٥ بنود بنقاط زرقاء داكنة)." },
+        { "name": "Process", "detailAr": "قسم داكن يعرض مراحل التوظيف الخمس على شبكة من خمسة أعمدة، لكل مرحلة رقم كبير بالذهبي بحد علوي ذهبي." },
+        { "name": "Note", "detailAr": "شريط ذهبي يحيط ببطاقة داكنة توضّح أن الشركة لا تتقاضى رسوماً من المرشحين وأن كل العروض تصدر من بريد النطاق الرسمي." },
+        { "name": "Footer", "detailAr": "نفس الترويسة السفلية المشتركة." }
+      ]
+    },
+    {
+      "route": "/jobs/$jobId",
+      "nameAr": "تفاصيل الوظيفة — ٢٤ صفحة ديناميكية",
+      "sections": [
+        { "name": "Detail hero", "detailAr": "شريط تنقّل (الرئيسية / الوظائف / اسم الوظيفة)، وسم القسم، عنوان الوظيفة، الوصف المختصر، وصف معلومات من خمس خانات (القسم، نوع الدوام، الموقع، الخبرة، رقم المرجع)، وزر «تقدّم على هذه الوظيفة» ينزل إلى النموذج." },
+        { "name": "Requirements & responsibilities", "detailAr": "عمود رئيسي يعرض قائمة المتطلبات كاملة بنقاط ذهبية وقائمة المهام الأساسية بنقاط زرقاء داكنة." },
+        { "name": "Application form", "detailAr": "نموذج تقديم فعلي داخل الصفحة: بيانات المتقدم، رفع السيرة الذاتية، إقرار معالجة البيانات، وزر إرسال — مع رسائل تحقق لكل حقل وحالة نجاح." },
+        { "name": "Sidebar", "detailAr": "بطاقة ملخّص لاصقة تحتوي نفس بيانات الوظيفة وزر تقديم، وبطاقة إرشادية بخلفية باردة تنقل إلى شروط التوظيف." },
+        { "name": "Related roles", "detailAr": "ثلاث وظائف أخرى من نفس القسم أولاً، ثم أبرز الوظائف من بقية الأقسام، بنفس بطاقة الوظائف المستخدمة في الصفحة الرئيسية للوظائف." }
+      ]
+    },
+    {
+      "route": "/about",
+      "nameAr": "عن الشركة",
+      "sections": [
+        { "name": "Page hero", "detailAr": "شارة وعنوان ووصف تعريفي بمريديان كنظام خدمات موارد بشرية إقليمي." },
+        { "name": "Story", "detailAr": "قصة تأسيس الشركة في ثلاث فقرات، مع صورة الفريق بنسبة عرض محددة." },
+        { "name": "Numbers", "detailAr": "أربع مؤشرات بأرقام كبيرة بنمط الموقع (حد علوي ذهبي)." },
+        { "name": "Values & account model", "detailAr": "أربع بطاقات لقيم العمل، ثم شرح كيفية بناء فريق الحساب (قائد الحساب، شريك التوظيف، مكتب الرواتب، مستشار الامتثال) مع صورة لوحة مؤشرات." },
+        { "name": "Coverage", "detailAr": "مدن العمل مستخرجة آلياً من بيانات الوظائف، مع عدد الوظائف المرتبطة بمقر وعدد الوظائف عن بُعد." }
+      ]
+    },
+    {
+      "route": "/faq",
+      "nameAr": "الأسئلة الشائعة",
+      "sections": [
+        { "name": "Page hero", "detailAr": "شارة وعنوان ووصف يوضّح أن الإجابات للمرشحين وللشركات." },
+        { "name": "Candidate questions", "detailAr": "ستة أسئلة بنمط الأكورديون تغطي: مدة التوظيف، عدم وجود رسوم على المرشحين، ما يحدث بعد التقديم، المستندات المطلوبة، إعادة التقديم، ومعالجة البيانات." },
+        { "name": "Client questions", "detailAr": "ستة أسئلة تغطي: نطاق الخدمات، التسعير، العمل مع فريق HR الداخلي، الدول المغطاة، سرية الرواتب، وسرعة البدء." }
+      ]
+    },
+    {
+      "route": "/privacy",
+      "nameAr": "سياسة الخصوصية",
+      "sections": [
+        { "name": "Page hero", "detailAr": "شارة وعنوان ووصف مع تاريخ آخر تحديث ظاهر." },
+        { "name": "Policy body", "detailAr": "اثنا عشر بنداً: من نحن، البيانات التي نجمعها، الغرض، الأساس القانوني، المشاركة، السير الذاتية وبيانات المرشحين، مدة الاحتفاظ، ملفات تعريف الارتباط والتخزين المحلي، الحقوق، الأمان، التغييرات، والتواصل." }
+      ]
+    },
+    {
+      "route": "/terms",
+      "nameAr": "شروط الاستخدام",
+      "sections": [
+        { "name": "Page hero", "detailAr": "شارة وعنوان ووصف مع تاريخ آخر تحديث ظاهر." },
+        { "name": "Terms body", "detailAr": "أحد عشر بنداً: قبول الشروط، استخدام الموقع، دقة إعلانات الوظائف، التقديم، عدم وجود رسوم على المرشحين، الملكية الفكرية، روابط الغير، حدود المسؤولية، القانون الواجب التطبيق، التغييرات، والتواصل." }
+      ]
+    }
+  ],
+
+  "content": [
+    { "area": "Hero stats", "itemAr": "أرقام الواجهة", "valueAr": "12k شخص تم توظيفهم · 98% دقة الرواتب · 45 قطاعاً نخدمه" },
+    { "area": "Services", "itemAr": "الخدمات الأربع", "valueAr": "التوظيف · الرواتب · الامتثال · التدريب (مع وصف لكل خدمة ونسبة زمن إغلاق ١٨ يوماً)" },
+    { "area": "Outcomes", "itemAr": "مؤشرات النتائج", "valueAr": "متوسط زمن التعيين 18d · دقة الرواتب 98% · عائد التدريب 3.2x · ملاحظات امتثال 0" },
+    { "area": "Clients", "itemAr": "شهادات العملاء", "valueAr": "ثلاث شهادات: عمر الخالدي (المدير المالي، فيلاريس) · دانا فارس (مؤسِّسة، كورلينك) · رامي سليمان (رئيس العمليات، نورثغيت)" },
+    { "area": "Trusted-by", "itemAr": "أسماء العملاء", "valueAr": "Northgate · Velaris · Atlas & Co · Meridian Foods · Corelink" },
+    { "area": "Process", "itemAr": "مراحل التوظيف الخمس", "valueAr": "مراجعة الطلب (٥ أيام عمل) · مكالمة تعريفية (٢٠ دقيقة) · المقابلة الفنية · التحقق · العرض والالتحاق" },
+    { "area": "Jobs", "itemAr": "الوظائف المنشورة", "valueAr": "٢٤ وظيفة موزعة على ٥ أقسام و١٠ مواقع مختلفة، لكل وظيفة وصف و٤–٥ متطلبات و٤–٥ مهام بالعربية والإنجليزية" },
+    { "area": "Contact", "itemAr": "قنوات التواصل", "valueAr": "hello@meridianhr.com للاستفسارات العامة · careers@meridianhr.com للتقديم على الوظائف" }
+  ],
+
+  "frs": [
+    { "id": "FR-001", "category": "Navigation", "titleEn": "Persistent site header", "descAr": "تظهر ترويسة موحّدة أعلى كل صفحة في الموقع (الصفحات العامة وصفحات الوظائف) بخلفية زرقاء داكنة ونص كريمي.", "priority": "Must", "acceptanceAr": "فتح أي صفحة من صفحات الموقع يظهر فيها نفس الترويسة بنفس العناصر والترتيب.", "evidence": "src/components/SiteHeader.tsx" },
+    { "id": "FR-002", "category": "Navigation", "titleEn": "Brand mark links home", "descAr": "شعار الشركة (مربّع ذهبي بحرف M + الاسم بالعربية والإنجليزية) يعمل كرابط يعود للصفحة الرئيسية.", "priority": "Must", "acceptanceAr": "النقر على الشعار من صفحة الوظائف ينقل إلى المسار الجذر /.", "evidence": "src/components/SiteHeader.tsx" },
+    { "id": "FR-003", "category": "Navigation", "titleEn": "Active route highlight", "descAr": "تُميَّز الصفحة الحالية في قائمة التنقل بلون ذهبي ليعرف الزائر موقعه.", "priority": "Should", "acceptanceAr": "فتح /jobs يجعل رابط الوظائف المتوفرة بلون ذهبي وباقي الروابط باللون الفاتح.", "evidence": "activeProps في SiteHeader" },
+    { "id": "FR-004", "category": "Navigation", "titleEn": "Header call-to-action", "descAr": "زر «احجز مكالمة» في الترويسة يفتح بريد التواصل مباشرة، ويظهر على الشاشات الصغيرة والمتوسطة فقط.", "priority": "Must", "acceptanceAr": "النقر على الزر يفتح عميل البريد بعنوان hello@meridianhr.com.", "evidence": "SiteHeader.tsx" },
+    { "id": "FR-005", "category": "Navigation", "titleEn": "Language toggle in header", "descAr": "زر تبديل اللغة متاح دائماً في الترويسة على كل الصفحات، ويكتب دائماً اسم اللغة الأخرى (العربية / English).", "priority": "Must", "acceptanceAr": "عند العرض بالعربية يظهر الزر بنص English، والعكس صحيح.", "evidence": "SiteHeader.tsx + lib/lang.ts" },
+    { "id": "FR-006", "category": "Navigation", "titleEn": "Shared footer", "descAr": "تظهر ترويسة سفلية موحّدة في كل الصفحات تحمل اسم العلامة وسطر الحقوق ومجالات الخدمة الأربعة.", "priority": "Must", "acceptanceAr": "كل صفحات الموقع تنتهي بنفس الترويسة السفلية.", "evidence": "SiteHeader.tsx (SiteFooter)" },
+    { "id": "FR-007", "category": "Navigation", "titleEn": "In-page anchor navigation", "descAr": "روابط الترويسة في الصفحة الرئيسية تنتقل بتمرير سلس إلى الأقسام (الخدمات، عملاؤنا، تواصل معنا).", "priority": "Should", "acceptanceAr": "النقر على «خدماتنا» يمرّر الصفحة إلى قسم الخدمات بسلاسة.", "evidence": "index.tsx + styles.css (scroll-behavior: smooth)" },
+    { "id": "FR-008", "category": "Navigation", "titleEn": "Responsive layout", "descAr": "تتكيّف كل الأقسام بين الموبايل واللوحي والشاشات الكبيرة: الشبكات تتحول من عمود واحد إلى عمودين أو أربعة.", "priority": "Must", "acceptanceAr": "عند عرض ٣٦٠ بكسل لا يظهر شريط تمرير أفقي وتظهر البطاقات بعمود واحد.", "evidence": "Tailwind breakpoints في جميع الصفحات" },
+    { "id": "FR-009", "category": "Navigation", "titleEn": "Not-found page", "descAr": "يوجد صفحة 404 مخصّصة برسالة وزرين للعودة للرئيسية أو إعادة المحاولة.", "priority": "Should", "acceptanceAr": "فتح مسار غير موجود يعرض صفحة 404 وليس شاشة بيضاء.", "evidence": "routes/__root.tsx" },
+
+    { "id": "FR-010", "category": "Localization", "titleEn": "Instant language switch", "descAr": "تبديل اللغة يغيّر كل نصوص الصفحة الحالية فوراً دون إعادة تحميل، بما يشمل التنقل والأزرار والعناوين والوصف والقوائم وبيانات الوظائف.", "priority": "Must", "acceptanceAr": "في صفحة الوظائف، النقر على مبدّل اللغة يغيّر العناوين والمسميات ومحتوى كل بطاقة دون تحديث الصفحة.", "evidence": "lib/lang.ts + copy objects" },
+    { "id": "FR-011", "category": "Localization", "titleEn": "Language preference persistence", "descAr": "يُحفظ اختيار اللغة في المتصفح ويُستعاد عند الزيارات التالية.", "priority": "Must", "acceptanceAr": "بعد اختيار العربية وإعادة تحميل الصفحة أو فتحها في تبويب جديد تبقى الواجهة عربية.", "evidence": "localStorage key «meridian-lang»" },
+    { "id": "FR-012", "category": "Localization", "titleEn": "Document direction and language", "descAr": "يُضبط اتجاه المستند ولغته برمجياً: rtl/ar للعربية و ltr/en للإنجليزية، ليعمل التخطيط والمحوّل الصوتي بشكل صحيح.", "priority": "Must", "acceptanceAr": "عند العربية تكون <html dir=\"rtl\" lang=\"ar\">، وعند الإنجليزية العكس.", "evidence": "lib/lang.ts" },
+    { "id": "FR-013", "category": "Localization", "titleEn": "Arabic font substitution", "descAr": "عند تفعيل RTL تُستبدل خطوط العرض والنص بخط Tajawal تلقائياً دون أي تعديل في المكوّنات.", "priority": "Must", "acceptanceAr": "الخط المحسوب للنص العربي هو Tajawal مع بدائل النظام.", "evidence": "styles.css — [dir=\"rtl\"]" },
+    { "id": "FR-014", "category": "Localization", "titleEn": "Bilingual string coverage", "descAr": "كل نص يظهر للمستخدم له مقابل في اللغتين داخل كائنات النسخ، ولا يوجد نص مكتوب مباشرة داخل الواجهة بلغة واحدة.", "priority": "Must", "acceptanceAr": "تحويل صفحات الموقع للعربية لا يُظهر أي نص إنجليزي (باستثناء أسماء العلامات التقنية والشعار).", "evidence": "copy في index/jobs/requirements" },
+    { "id": "FR-015", "category": "Localization", "titleEn": "Arabic-Indic numerals", "descAr": "تستخدم النصوص العربية الأرقام العربية الهندية (٠١٢٣) في الأرقام المكتوبة داخل المحتوى، بينما تبقى أرقام القياس في الإحصائيات بصيغتها اللاتينية كما في التصميم.", "priority": "Should", "acceptanceAr": "تظهر «٢٤ وظيفة نشطة» بالأرقام العربية في النسخة العربية، و«24 active mandates» في الإنجليزية.", "evidence": "jobs.tsx — دالة arNum" },
+    { "id": "FR-016", "category": "Localization", "titleEn": "RTL-safe styling", "descAr": "لا تُستخدم خصائص اتجاه فيزيائية (left/right/ml/mr/pl/pr) في أي مكوّن، بل خصائص منطقية أو مرنة، لضمان انعكاس صحيح.", "priority": "Must", "acceptanceAr": "لا يحتوي الكود على أي من: ml-/mr-/pl-/pr-/text-left/text-right/border-l/border-r.", "evidence": "فحص شامل على src" },
+    { "id": "FR-017", "category": "Localization", "titleEn": "Bilingual data parity", "descAr": "كل سجل وظيفة له نسخة عربية ونسخة إنجليزية بنفس الترتيب ونفس عدد العناصر، بحيث لا تنقص ترجمة أي حقل أو بند.", "priority": "Must", "acceptanceAr": "عدد الوظائف وعدد المتطلبات والمهام متساوٍ في اللغتين لكل وظيفة على حدة.", "evidence": "src/data/jobs.ts" },
+
+    { "id": "FR-020", "category": "Home", "titleEn": "Hero composition", "descAr": "الواجهة الرئيسية تعرض شارة صغيرة، عنواناً من ثلاثة أجزاء يُبرز الجزء الأوسط بالذهبي، فقرة تعريفية، وزرين للإجراء.", "priority": "Must", "acceptanceAr": "تظهر الواجهة بكل عناصرها والعنوان يبرز الجزء الأوسط بلون ذهبي.", "evidence": "routes/index.tsx" },
+    { "id": "FR-021", "category": "Home", "titleEn": "Hero statistics", "descAr": "ثلاث إحصائيات تحت الأزرار (عدد الموظفين، دقة الرواتب، القطاعات) بحدود ذهبية علوية.", "priority": "Must", "acceptanceAr": "تظهر ثلاث إحصائيات بالشكل المحدد في كل اللغات.", "evidence": "routes/index.tsx" },
+    { "id": "FR-022", "category": "Home", "titleEn": "Hero quotation card", "descAr": "بطاقة اقتباس كريمية أسفل صورة الفريق تعرض رأي عميل مع صورته واسمه ووظيفته.", "priority": "Should", "acceptanceAr": "تظهر البطاقة بالاقتباس والصورة والاسم والمسمى الوظيفي.", "evidence": "routes/index.tsx + headshot-layla" },
+    { "id": "FR-023", "category": "Home", "titleEn": "Trusted-by strip", "descAr": "شريط رقيق أسفل الواجهة يعرض أسماء العملاء بخط عرضي مميّز.", "priority": "Should", "acceptanceAr": "تظهر أسماء العملاء الخمسة في الشريط.", "evidence": "routes/index.tsx" },
+    { "id": "FR-024", "category": "Home", "titleEn": "Services grid", "descAr": "قسم يعرض أربع بطاقات خدمة مرقّمة بترقيم ثابت (01–04) لكل منها عنوان ووصف.", "priority": "Must", "acceptanceAr": "تظهر أربع بطاقات بالترقيم والتوصيف، وتتكدس في عمود واحد على الموبايل.", "evidence": "routes/index.tsx" },
+    { "id": "FR-025", "category": "Home", "titleEn": "Outcomes section", "descAr": "قسم داكن يعرض أربع إحصائيات بأرقام كبيرة بالذهبي مع صورة لوحة تحليلات.", "priority": "Must", "acceptanceAr": "تظهر الإحصائيات الأربع والصورة بنسبة العرض المحددة.", "evidence": "routes/index.tsx + outcomes-dashboard" },
+    { "id": "FR-026", "category": "Home", "titleEn": "Client testimonials", "descAr": "قسم بخلفية فاتحة باردة يعرض ثلاث شهادات على بطاقات بيضاء بصورة واسم ووظيفة لكل شاهد.", "priority": "Must", "acceptanceAr": "تظهر ثلاث بطاقات شهادات بصور مطابقة لكل اسم.", "evidence": "routes/index.tsx" },
+    { "id": "FR-027", "category": "Home", "titleEn": "Closing call-to-action", "descAr": "شريط ذهبي يحتوي بطاقة زرقاء داكنة بعنوان ووصف وزر حجز وبريد تواصل، وكلاهما يفتح البريد.", "priority": "Must", "acceptanceAr": "النقر على الزر أو البريد يفتح عميل البريد بعنوان hello@meridianhr.com.", "evidence": "routes/index.tsx" },
+    { "id": "FR-028", "category": "Home", "titleEn": "Footer legal line", "descAr": "الترويسة السفلية تعرض اسم العلامة وسطر حقوق يتضمن السنة ومجالات الخدمة الأربعة.", "priority": "Should", "acceptanceAr": "يظهر سطر الحقوق باللغة المختارة.", "evidence": "SiteHeader.tsx" },
+    { "id": "FR-029", "category": "Home", "titleEn": "Section anchors", "descAr": "توجد معرّفات ثابتة للأقسام (top، services، results، clients، contact) لتستخدمها روابط التنقل.", "priority": "Should", "acceptanceAr": "كل معرّف موجود كـ id على القسم المقابل في الصفحة.", "evidence": "routes/index.tsx" },
+
+    { "id": "FR-030", "category": "Jobs", "titleEn": "Render all jobs from the data source", "descAr": "صفحة الوظائف تبني البطاقات من ملف البيانات المركزي وليس من مصفوفة مكتوبة داخل الصفحة.", "priority": "Must", "acceptanceAr": "عدد البطاقات المعروضة يساوي عدد السجلات في ملف البيانات.", "evidence": "src/data/jobs.ts + routes/jobs.tsx" },
+    { "id": "FR-031", "category": "Jobs", "titleEn": "Data-driven job count", "descAr": "عدد الفرص المذكور في نص الصفحة يُحسب من طول بيانات الوظائف، فلا يظهر رقم مخالف للواقع عند إضافة وظائف أو حذفها.", "priority": "Must", "acceptanceAr": "تغيير عدد الوظائف في البيانات يغيّر الرقم في نص الصفحة تلقائياً.", "evidence": "JOB_COUNT + filtersNote" },
+    { "id": "FR-032", "category": "Jobs", "titleEn": "Job card composition", "descAr": "كل بطاقة تعرض وسم القسم، عنوان الوظيفة، ووصفاً مختصراً بترتيب واحد موحّد.", "priority": "Must", "acceptanceAr": "كل بطاقات الوظائف تعرض العناصر الثلاثة بلا استثناء.", "evidence": "routes/jobs.tsx" },
+    { "id": "FR-033", "category": "Jobs", "titleEn": "Meta row (type, location, experience)", "descAr": "صف معلومات بثلاث خانات يفصله حد علوي رقيق، ويعرض نوع الدوام والموقع وسنوات الخبرة بمسميات مترجمة.", "priority": "Must", "acceptanceAr": "تظهر الخانات الثلاث بمسمياتها العربية عند العرض بالعربية.", "evidence": "routes/jobs.tsx" },
+    { "id": "FR-034", "category": "Jobs", "titleEn": "Collapsible job details", "descAr": "لكل وظيفة عنصر قابل للطي (مطوي افتراضياً) يحمل تسمية «تفاصيل الوظيفة» وأيقونة سهم تدور عند الفتح.", "priority": "Must", "acceptanceAr": "البطاقات تظهر مطوية عند التحميل، والنقر على الصف يفتح التفاصيل ويدير السهم.", "evidence": "routes/jobs.tsx — details/summary" },
+    { "id": "FR-035", "category": "Jobs", "titleEn": "Requirements list per job", "descAr": "داخل التفاصيل يظهر قسم «المتطلبات» بعنوان ذهبي وقائمة بنقاط ذهبية تضم مؤهلات الوظيفة.", "priority": "Must", "acceptanceAr": "كل وظيفة تعرض من أربعة إلى خمسة متطلبات بنقاط ذهبية بالعربية والإنجليزية.", "evidence": "src/data/jobs.ts" },
+    { "id": "FR-036", "category": "Jobs", "titleEn": "Responsibilities list per job", "descAr": "تحت المتطلبات يظهر قسم «المهام الأساسية» بعنوان أزرق داكن وقائمة بنقاط زرقاء داكنة تضم مهام الوظيفة.", "priority": "Must", "acceptanceAr": "كل وظيفة تعرض من أربعة إلى خمسة مهام بنقاط زرقاء داكنة بالعربية والإنجليزية.", "evidence": "src/data/jobs.ts" },
+    { "id": "FR-037", "category": "Jobs", "titleEn": "Apply action", "descAr": "زر «قدّم الآن» في كل بطاقة يفتح بريد التقديم مع وضع عنوان الوظيفة في عنوان الرسالة ليعرف الفريق الوظيفة المقصودة.", "priority": "Must", "acceptanceAr": "فتح الرابط يولّد رسالة إلى careers@meridianhr.com وعنوانها اسم الوظيفة.", "evidence": "routes/jobs.tsx — mailto مع encodeURIComponent" },
+    { "id": "FR-038", "category": "Jobs", "titleEn": "Cross-link to hiring requirements", "descAr": "تحتوي الصفحة على رابط واضح ينقل إلى صفحة شروط التوظيف.", "priority": "Should", "acceptanceAr": "النقر على الرابط ينقل إلى /requirements.", "evidence": "routes/jobs.tsx" },
+    { "id": "FR-039", "category": "Jobs", "titleEn": "Two-column jobs grid", "descAr": "تُعرض البطاقات في عمودين على الشاشات المتوسطة وأكثر، وعمود واحد على الموبايل، بارتفاع مرن حسب المحتوى.", "priority": "Should", "acceptanceAr": "عرض ١٢٨٠ بكسل يُظهر عمودين متساويين في العرض وارتفاعات مختلفة بحسب المحتوى.", "evidence": "routes/jobs.tsx — md:grid-cols-2" },
+    { "id": "FR-040", "category": "Jobs", "titleEn": "Stable unique job identifiers", "descAr": "كل وظيفة لها معرّف فريد ثابت يُستخدم مفتاحاً للعرض، لتفادي أخطاء التحديث الجزئي عند تغيّر الترتيب.", "priority": "Should", "acceptanceAr": "المعرّفات MHR-01 إلى MHR-24 فريدة ولا تتكرر.", "evidence": "src/data/jobs.ts" },
+    { "id": "FR-041", "category": "Jobs", "titleEn": "Keyboard-operable disclosure", "descAr": "يمكن فتح وإغلاق تفاصيل الوظيفة بلوحة المفاتيح، ويقرأ قارئ الشاشة الصف كعنصر قابل للفتح.", "priority": "Should", "acceptanceAr": "بالتمرير على الصف والضغط على Enter أو المسافة تُفتح التفاصيل.", "evidence": "عنصر details/summary الأصلي" },
+
+    { "id": "FR-045", "category": "Requirements page", "titleEn": "Page hero", "descAr": "صفحة شروط التوظيف تبدأ بشارة وعنوان ووصف وزر ينقل إلى صفحة الوظائف.", "priority": "Must", "acceptanceAr": "تظهر العناصر الأربعة أعلى الصفحة باللغة المختارة.", "evidence": "routes/requirements.tsx" },
+    { "id": "FR-046", "category": "Requirements page", "titleEn": "General requirements list", "descAr": "بطاقة بيضاء عريضة تعرض الشروط العامة للمرشحين كقائمة بنقاط ذهبية.", "priority": "Must", "acceptanceAr": "تظهر ستة بنود شروط بنقاط ذهبية، مترجمة بالكامل.", "evidence": "routes/requirements.tsx" },
+    { "id": "FR-047", "category": "Requirements page", "titleEn": "Documents list", "descAr": "بطاقة جانبية بخلفية فاتحة باردة تعرض المستندات المطلوبة كقائمة بنقاط زرقاء داكنة.", "priority": "Must", "acceptanceAr": "تظهر خمسة بنود مستندات بنقاط زرقاء داكنة.", "evidence": "routes/requirements.tsx" },
+    { "id": "FR-048", "category": "Requirements page", "titleEn": "Five-stage hiring process", "descAr": "قسم داكن يعرض مراحل التوظيف الخمس على شبكة من خمسة أعمدة، لكل مرحلة رقم كبير بالذهبي وعنوان ووصف.", "priority": "Must", "acceptanceAr": "تظهر خمس مراحل بترقيم صحيح (٠١–٠٥ بالعربية) ووصف لكل مرحلة.", "evidence": "routes/requirements.tsx" },
+    { "id": "FR-049", "category": "Requirements page", "titleEn": "Anti-fraud notice", "descAr": "شريط ذهبي يحيط ببطاقة داكنة توضّح أن الشركة لا تتقاضى رسوماً من المرشحين وأن العروض تصدر من بريد النطاق الرسمي فقط.", "priority": "Must", "acceptanceAr": "يظهر النص بالكامل في اللغتين أسفل مراحل التوظيف.", "evidence": "routes/requirements.tsx" },
+    { "id": "FR-050", "category": "Requirements page", "titleEn": "Cross-link to jobs", "descAr": "يوجد في أعلى الصفحة زر ينقل الزائر إلى قائمة الوظائف المتاحة.", "priority": "Should", "acceptanceAr": "النقر على الزر ينقل إلى /jobs.", "evidence": "routes/requirements.tsx" },
+
+    { "id": "FR-055", "category": "Data", "titleEn": "Single source of truth for jobs", "descAr": "بيانات الوظائف معرّفة في وحدة بيانات مستقلة تُستورد في الصفحة، بحيث لا يوجد أي تكرار للمحتوى في أكثر من ملف.", "priority": "Must", "acceptanceAr": "البحث عن عنوان أي وظيفة في المشروع يعيد نتيجة واحدة فقط (ملف البيانات).", "evidence": "src/data/jobs.ts" },
+    { "id": "FR-056", "category": "Data", "titleEn": "Job entity shape", "descAr": "كل سجل وظيفة يحمل: المعرّف، القسم، نوع الدوام، الموقع، سنوات الخبرة، العنوان، الوصف، قائمة المتطلبات، وقائمة المهام.", "priority": "Must", "acceptanceAr": "وجود الحقول التسعة في كل سجل بلا حقل فارغ، وبنوع صريح في TypeScript.", "evidence": "type Job في src/data/jobs.ts" },
+    { "id": "FR-057", "category": "Data", "titleEn": "Twenty-four live mandates", "descAr": "يضم السجل ٢٤ وظيفة مطابقة لما تنص عليه الصفحة من عدد الفرص النشطة.", "priority": "Must", "acceptanceAr": "عدد السجلات في اللغتين ٢٤ لكل لغة، مطابق للنص المعروض.", "evidence": "src/data/jobs.ts" },
+    { "id": "FR-058", "category": "Data", "titleEn": "Department coverage", "descAr": "تتوزع الوظائف على الأقسام التي يقدّمها الموقع كخدمات: التوظيف، الرواتب، الامتثال، التدريب، والعمليات.", "priority": "Should", "acceptanceAr": "وجود وظيفة واحدة على الأقل لكل قسم من الأقسام الخمسة.", "evidence": "src/data/jobs.ts" },
+    { "id": "FR-059", "category": "Data", "titleEn": "Location and contract variety", "descAr": "تتنوع مواقع العمل ونماذج التعاقد لتعكس طبيعة عمل إقليمية حقيقية.", "priority": "Should", "acceptanceAr": "وجود ١٠ مواقع مختلفة على الأقل وثلاثة أنماط دوام (كامل، جزئي، عقد مؤقت).", "evidence": "src/data/jobs.ts" },
+    { "id": "FR-060", "category": "Data", "titleEn": "Minimum depth per job", "descAr": "لكل وظيفة أربع إلى خمس فقرات متطلبات وأربع إلى خمس فقرات مهام في كل لغة، بمحتوى خاص بالوظيفة لا نصوص عامة مكرّرة.", "priority": "Must", "acceptanceAr": "لا تقل أي قائمة عن أربع فقرات، ولا تتكرر نفس الفقرة بين وظيفتين.", "evidence": "src/data/jobs.ts" },
+    { "id": "FR-061", "category": "Data", "titleEn": "Automated data validation", "descAr": "يوجد سكربت تحقق يفحص تطابق اللغتين وعدم وجود حقول أو فقرات فارغة وتفرّد المعرّفات.", "priority": "Should", "acceptanceAr": "تشغيل السكربت يطبع PROBLEMS: NONE.", "evidence": "docs/check-jobs-data.mjs" },
+
+    { "id": "FR-065", "category": "SEO", "titleEn": "Per-route titles and descriptions", "descAr": "لكل صفحة عنوان ووصف تعريفي خاص بها يظهر في نتائج البحث ومنصات المشاركة.", "priority": "Must", "acceptanceAr": "عناوين كل الصفحات مختلفة ووصف كل صفحة يعبّر عن محتواها.", "evidence": "head() في ملفات المسارات" },
+    { "id": "FR-066", "category": "SEO", "titleEn": "Social sharing metadata", "descAr": "تتضمن كل صفحة وسوم Open Graph وبطاقة تويتر لعرض المعاينة عند المشاركة.", "priority": "Should", "acceptanceAr": "وجود og:title و og:description و og:type وبطاقة تويتر في كل صفحات الموقع.", "evidence": "head() + __root.tsx" },
+    { "id": "FR-067", "category": "SEO", "titleEn": "Root defaults and site identity", "descAr": "المستند الجذري يعرّف الترميز، منفذ العرض، العنوان والوصف الافتراضيين، واسم الموقع في وسوم المشاركة.", "priority": "Must", "acceptanceAr": "وجود charSet و viewport و og:site_name في المستند الجذري.", "evidence": "routes/__root.tsx" },
+    { "id": "FR-068", "category": "SEO", "titleEn": "Crawlability basics", "descAr": "الموقع يوفّر ملف توجيهات لمحركات البحث وأيقونة موقع.", "priority": "Should", "acceptanceAr": "الوصول إلى /robots.txt و/favicon.ico يعيد استجابة ناجحة.", "evidence": "public/" },
+    { "id": "FR-069", "category": "SEO", "titleEn": "Server-rendered content", "descAr": "يُرسَل محتوى الصفحات معرّفاً في HTML من الخادم ليقرأه محرك البحث وقارئ الشاشة دون انتظار جافاسكربت.", "priority": "Must", "acceptanceAr": "استدعاء /jobs مباشرة يعيد HTML يحتوي كل بطاقات الوظائف ونصوص المتطلبات.", "evidence": "TanStack Start SSR" },
+
+    { "id": "FR-070", "category": "Job detail pages", "titleEn": "A page per role", "descAr": "لكل وظيفة من الوظائف الـ٢٤ صفحة مستقلة على مسار يحمل معرّفها، وتُبنى الصفحة من نفس ملف البيانات بلا تكرار للمحتوى.", "priority": "Must", "acceptanceAr": "فتح مسار أي وظيفة يعرض بياناتها الصحيحة، وفتح معرّف غير موجود يعرض صفحة ٤٠٤ برمز استجابة ٤٠٤.", "evidence": "src/routes/jobs_.$jobId.tsx" },
+    { "id": "FR-071", "category": "Job detail pages", "titleEn": "Detail hero with breadcrumb", "descAr": "رأس الصفحة يعرض مسار تنقّل يعود للرئيسية وقائمة الوظائف، ووسم القسم، وعنوان الوظيفة، ووصفها، وزرّي التقديم والعودة للقائمة.", "priority": "Must", "acceptanceAr": "المسار يظهر بثلاثة مستويات وروابطه تعمل، وزر التقديم ينزل إلى النموذج في نفس الصفحة.", "evidence": "jobs_.$jobId.tsx" },
+    { "id": "FR-072", "category": "Job detail pages", "titleEn": "At-a-glance summary", "descAr": "الصفحة تعرض القسم ونوع الدوام والموقع وسنوات الخبرة ورقم مرجع الوظيفة، في الرأس وفي بطاقة جانبية.", "priority": "Must", "acceptanceAr": "الحقول الخمسة تظهر بنفس القيم في الرأس وفي البطاقة الجانبية، وبمسميات مترجمة.", "evidence": "jobs_.$jobId.tsx" },
+    { "id": "FR-073", "category": "Job detail pages", "titleEn": "Full requirements on the page", "descAr": "تُعرض قائمة المتطلبات كاملة ببنودها الأربعة إلى الخمسة بنقاط ذهبية دون اختصار.", "priority": "Must", "acceptanceAr": "عدد البنود المعروضة يطابق عدد المتطلبات في ملف البيانات لذلك المعرّف، في اللغتين.", "evidence": "src/data/jobs.ts" },
+    { "id": "FR-074", "category": "Job detail pages", "titleEn": "Full responsibilities on the page", "descAr": "تُعرض قائمة المهام الأساسية كاملة بنقاط زرقاء داكنة تحت قائمة المتطلبات.", "priority": "Must", "acceptanceAr": "عدد البنود المعروضة يطابق عدد المهام في ملف البيانات، وتمييز اللون مختلف عن قائمة المتطلبات.", "evidence": "src/data/jobs.ts" },
+    { "id": "FR-075", "category": "Job detail pages", "titleEn": "Sticky sidebar actions", "descAr": "بطاقة جانبية لاصقة تعرض ملخّص الوظيفة وزر تقديم، وبطاقة إرشادية تنقل إلى شروط التوظيف قبل التقديم.", "priority": "Should", "acceptanceAr": "البطاقة تبقى ظاهرة أثناء التمرير على الشاشات الكبيرة، وتتكدس أسفل المحتوى على الموبايل بدون كسر التخطيط.", "evidence": "jobs_.$jobId.tsx" },
+    { "id": "FR-076", "category": "Job detail pages", "titleEn": "Related roles", "descAr": "أسفل الصفحة ثلاثة أدوار أخرى، تُقدَّم وظائف نفس القسم أولاً ثم تُستكمل من بقية الأقسام، مع استثناء الوظيفة الحالية.", "priority": "Should", "acceptanceAr": "لا تظهر الوظيفة الحالية في القائمة، وتظهر وظائف نفس القسم قبل غيرها.", "evidence": "relatedJobs في src/data/jobs.ts" },
+
+    { "id": "FR-080", "category": "Applications", "titleEn": "Application form on every role", "descAr": "نموذج تقديم على كل صفحة وظيفة يجمع: الاسم، البريد، الهاتف، المدينة، سنوات الخبرة، رابط اختياري، رسالة اختيارية، السيرة الذاتية، وإقرار الموافقة.", "priority": "Must", "acceptanceAr": "النموذج يظهر في كل صفحات الوظائف الـ٢٤ بحقوله التسعة ومسمياته المترجمة.", "evidence": "src/components/ApplicationForm.tsx" },
+    { "id": "FR-081", "category": "Applications", "titleEn": "Server endpoint for submissions", "descAr": "يُرسَل النموذج إلى مسار خادمي يستقبل بيانات متعددة الأجزاء بما فيها ملف السيرة الذاتية، وليس إلى خدمة خارجية مباشرة من المتصفح.", "priority": "Must", "acceptanceAr": "إرسال النموذج يصل إلى مسار الخادم ويعيد استجابة JSON بحالة واضحة، ويرفض الطلبات خارج هذا المسار.", "evidence": "src/routes/api/apply.ts" },
+    { "id": "FR-082", "category": "Applications", "titleEn": "Field validation with localised errors", "descAr": "يُتحقَّق من صحة كل حقل على الخادم، وتُعاد الأخطاء مربوطة بأسماء الحقول فتظهر رسالة عربية أو إنجليزية تحت الحقل نفسه.", "priority": "Must", "acceptanceAr": "إرسال بريد غير صالح أو بدون موافقة يعيد خطأ مربوطاً بالحقل، وتظهر رسالة مترجمة تحته دون فقدان باقي البيانات المدخلة.", "evidence": "zod + ApplicationForm.tsx" },
+    { "id": "FR-083", "category": "Applications", "titleEn": "CV file constraints", "descAr": "تُقبل السيرة الذاتية بصيغة PDF أو DOC أو DOCX فقط، وبحجم أقصى ٥ ميجابايت، ويُرفض غير ذلك برسالة واضحة.", "priority": "Must", "acceptanceAr": "ملف بحجم أكبر من الحد يعيد خطأ الحجم، وملف بصيغة غير مدعومة يعيد خطأ النوع، وملف صحيح يُقبل.", "evidence": "routes/api/apply.ts" },
+    { "id": "FR-084", "category": "Applications", "titleEn": "Spam and abuse protection", "descAr": "يحتوي النموذج على حقل فخ مخفي لا يراه المستخدم، ويُحدَّد معدل الطلبات لكل عنوان شبكة لحماية المسار من الإساءة.", "priority": "Must", "acceptanceAr": "تعبئة الحقل المخفي تُقبل ظاهرياً وتُهمل بدون إرسال بريد، وتجاوز الحد المسموح يعيد حالة ٤٢٩.", "evidence": "routes/api/apply.ts" },
+    { "id": "FR-085", "category": "Applications", "titleEn": "Delivery to the recruiting inbox", "descAr": "يُرسَل الطلب بالبريد إلى صندوق التوظيف ويشمل بيانات المتقدم واسم الوظيفة ومعرّفها ومحتوى السيرة الذاتية مقروءاً كنص، وردّ الرد يسير إلى بريد المتقدم، ومع السيرة الذاتية كمرفق.", "priority": "Must", "acceptanceAr": "الرسالة الواردة تحتوي جدول البيانات كاملاً واسم الملف المرفق ونص السيرة المستخرج، وعنوان الرد هو بريد المتقدم.", "evidence": "src/lib/application-email.ts" },
+    { "id": "FR-077", "category": "Applications", "titleEn": "Applicant sees the CV was read", "descAr": "بعد نجاح الإرسال تُعرض للمتقدّم حالة قراءة سيرته: عدد الأحرف المستخرجة ومعاينة من أول السطور، أو رسالة هادئة إذا تعذّرت القراءة مع التأكيد أن الملف مرفق بالطلب.", "priority": "Should", "acceptanceAr": "شاشة التأكيد تُظهر عدد الأحرف ومعاينة عند نجاح القراءة، وتُظهر رسالة استلام الملف دون قراءته عند الفشل، في اللغتين.", "evidence": "src/components/ApplicationForm.tsx" },
+    { "id": "FR-089", "category": "Applications", "titleEn": "CV contents read into text", "descAr": "عند استلام السيرة الذاتية تُقرأ محتوياتها ويُستخرج نصها الكامل على الخادم لتُضمَّن في بريد الإشعار، فيرى فريق التوظيف المحتوى دون فتح المرفق. المدعوم PDF و DOCX، وملفات .doc القديمة تُعلن كغير مدعومة دون إفشال الطلب.", "priority": "Must", "acceptanceAr": "إرسال سيرة PDF أو DOCX بمحتوى معروف يُنتج نصاً يحتوي سطور الملف نفسه — بما فيها السطور العربية بترتيبها الصحيح — وعدد الأحرف المعلن يطابق النص المستخرج، والملف التالف أو الفارغ أو غير المدعوم لا يُفشل الطلب.", "evidence": "src/lib/cv-text.ts" },
+    { "id": "FR-095", "category": "Applications", "titleEn": "Role identity validated server-side", "descAr": "معرّف الوظيفة المُرسَل من المتصفح يُتحقق منه مقابل قائمة الوظائف المعروفة، وعنوان الوظيفة يُستخرج من بيانات الموقع نفسها لا من الطلب، فلا يستطيع مرسل الطلب وضع نص حر في إشعار التوظيف.", "priority": "Must", "acceptanceAr": "إرسال معرّف وظيفة غير موجود يعيد خطأ تحقق على الحقل، وتغيير عنوان الوظيفة داخل الطلب لا يؤثر على العنوان الظاهر في البريد أو في عنوان الرسالة.", "evidence": "src/routes/api/apply.ts" },
+    { "id": "FR-086", "category": "Applications", "titleEn": "Graceful fallback when delivery is unavailable", "descAr": "إذا لم يكن مفتاح خدمة الإرسال مضبوطاً أو فشل الإرسال، يعيد الخادم حالة واضحة وتتحوّل الواجهة تلقائياً إلى فتح البريد برسالة جاهزة تحتوي ما أدخله المتقدم.", "priority": "Must", "acceptanceAr": "بدون مفتاح الخدمة يعيد المسار ٥٠٣ مع رمز واضح، وتظهر للمستخدم رسالة وزر يفتح البريد بالموضوع والنص معدَّين مسبقاً.", "evidence": "routes/api/apply.ts + ApplicationForm.tsx" },
+    { "id": "FR-087", "category": "Applications", "titleEn": "Submission states and confirmation", "descAr": "تعرض الواجهة حالة الإرسال أثناء الانتظار، وشاشة تأكيد عند النجاح مع إمكانية إرسال طلب آخر، ورسالة خطأ قابلة للتعافي عند الفشل.", "priority": "Should", "acceptanceAr": "زر الإرسال يُعطَّل أثناء الإرسال ويظهر نص انتظار، وعند النجاح تُستبدل الاستمارة برسالة تأكيد.", "evidence": "ApplicationForm.tsx" },
+    { "id": "FR-088", "category": "Applications", "titleEn": "Escaping submitted content", "descAr": "تُعالَج كل القيم المُدخلة قبل تضمينها في بريد الإشعار لمنع أي حقن في محتوى الرسالة.", "priority": "Must", "acceptanceAr": "إرسال نص يحتوي وسوم HTML يظهر كنص عادي في البريد دون تنفيذ.", "evidence": "escapeHtml في routes/api/apply.ts" },
+
+    { "id": "FR-090", "category": "About / FAQ / Legal", "titleEn": "About page", "descAr": "صفحة عن الشركة تعرض القصة في ثلاث فقرات، وأربعة مؤشرات، والقيم على بطاقات، وكيفية بناء فريق الحساب، وتغطية المدن.", "priority": "Should", "acceptanceAr": "الأقسام الخمسة تظهر كاملة في اللغتين، والصور تُعرض بنسب العرض المحددة دون تشويه.", "evidence": "src/routes/about.tsx" },
+    { "id": "FR-091", "category": "About / FAQ / Legal", "titleEn": "Coverage derived from job data", "descAr": "تُستخرج مدن العمل في صفحة عن الشركة من بيانات الوظائف نفسها، ويُحسب عدد الوظائف المرتبطة بمقر وعدد الوظائف عن بُعد من البيانات.", "priority": "Should", "acceptanceAr": "إضافة وظيفة في مدينة جديدة تُظهر المدينة في القائمة تلقائياً دون تعديل الصفحة.", "evidence": "jobCities / remoteRoleCount" },
+    { "id": "FR-092", "category": "About / FAQ / Legal", "titleEn": "FAQ with candidate and client groups", "descAr": "صفحة أسئلة شائعة بعنصر أكورديون يجمع ستة أسئلة للمرشحين وستة للشركات، وأول سؤال مغلق افتراضياً حتى يطلبه الزائر.", "priority": "Should", "acceptanceAr": "عدد العناصر اثنا عشر موزّعة على مجموعتين، وفتح أي عنصر يعرض إجابته الكاملة بلوحة المفاتيح أيضاً.", "evidence": "src/routes/faq.tsx" },
+    { "id": "FR-093", "category": "About / FAQ / Legal", "titleEn": "Privacy policy", "descAr": "سياسة خصوصية تغطي بيانات المرشحين والسير الذاتية المرفوعة عبر النموذج، والغرض والأساس القانوني والمشاركة ومدة الاحتفاظ والحقوق.", "priority": "Must", "acceptanceAr": "الصفحة منشورة ومربوطة من النموذج ومن الترويسة السفلية، وتذكر صراحة معالجة السيرة الذاتية المرفوعة من الموقع.", "evidence": "src/routes/privacy.tsx" },
+    { "id": "FR-094", "category": "About / FAQ / Legal", "titleEn": "Terms of use", "descAr": "شروط استخدام تشمل قواعد الموقع ودقة إعلانات الوظائف وشروط التقديم وقاعدة عدم وجود رسوم على المرشحين وحدود المسؤولية والقانون الواجب التطبيق.", "priority": "Should", "acceptanceAr": "الصفحة منشورة وتحتوي بنداً صريحاً بعدم وجود رسوم على المرشحين، ومرتبطة من الترويسة السفلية.", "evidence": "src/routes/terms.tsx" },
+
+    { "id": "FR-100", "category": "Navigation & SEO", "titleEn": "Footer navigation to every page", "descAr": "الترويسة السفلية تحتوي روابط لكل صفحات الموقع بما فيها الوظائف وشروط التوظيف وعن الشركة والأسئلة الشائعة والسياسات، فتصل لكل صفحة من أي صفحة.", "priority": "Must", "acceptanceAr": "من أي صفحة يمكن الوصول لكل الصفحات السبع عبر روابط الترويسة السفلية،且在 اللغتين.", "evidence": "SiteFooter في src/components/SiteHeader.tsx" },
+    { "id": "FR-101", "category": "Navigation & SEO", "titleEn": "Header navigation without crowding", "descAr": "تنقّل الترويسة يضم الصفحات الرئيسية، وتظهر روابط عن الشركة والأسئلة الشائعة على الشاشات الواسعة فقط للحفاظ على تباعد التصميم الأصلي.", "priority": "Should", "acceptanceAr": "على الشاشات الواسعة تظهر خمسة روابط، وعلى المتوسطة تظهر ثلاثة دون كسر أو تفاف غير مرغوب.", "evidence": "SiteHeader.tsx" },
+    { "id": "FR-102", "category": "Navigation & SEO", "titleEn": "Unique metadata per page", "descAr": "كل صفحة من الصفحات الثمانية لها عنوان ووصف ووسوم مشاركة خاصة بها، وصفحة كل وظيفة تحمل عنوانها وقسمها.", "priority": "Must", "acceptanceAr": "لا يتكرر أي عنوان بين الصفحات، وعنوان صفحة الوظيفة يذكر اسم الوظيفة والقسم.", "evidence": "head() في كل مسار" },
+    { "id": "FR-103", "category": "Navigation & SEO", "titleEn": "Generated sitemap", "descAr": "خريطة موقع تُولَّد من بيانات الوظائف وقت الطلب، فتشمل الصفحات الثابتة وكل صفحات الوظائف دون قائمة يدوية تحتاج تحديثاً.", "priority": "Should", "acceptanceAr": "طلب خريطة الموقع يعيد ملف XML يحتوي عدداً من الروابط يساوي عدد الصفحات الثابتة مضافاً إليه عدد الوظائف.", "evidence": "src/routes/sitemap[.]xml.ts" }
+  ],
+
+  "nfrs": [
+    { "id": "NFR-001", "categoryAr": "الأداء", "titleEn": "Largest Contentful Paint", "descAr": "يجب أن يظهر أكبر عنصر مرئي بسرعة على اتصال جوال متوسط.", "metricAr": "LCP أقل من ٢٫٥ ثانية على اتصال 4G متوسط، وقياس موثّق بـ Lighthouse قبل الإطلاق.", "priority": "Should" },
+    { "id": "NFR-002", "categoryAr": "الأداء", "titleEn": "Layout stability", "descAr": "لا يجب أن تتحرك العناصر أثناء التحميل بسبب الصور أو الخطوط.", "metricAr": "CLS أقل من ٠٫١، مع تحديد عرض وارتفاع لكل صورة.", "priority": "Should" },
+    { "id": "NFR-003", "categoryAr": "الأداء", "titleEn": "No client-side fetch for jobs", "descAr": "بيانات الوظائف تُرسَل مع الصفحة ولا تُطلب من المتصفح بعد التحميل.", "metricAr": "لا يوجد أي طلب شبكة لجلب الوظائف بعد تحميل المستند.", "priority": "Must" },
+    { "id": "NFR-004", "categoryAr": "الأداء", "titleEn": "Payload discipline", "descAr": "حجم الحزمة المنقولة للصفحة الواحدة معقول ولا يُحمَّل أي مكوّن غير مستخدم.", "metricAr": "لا تُستورد مكوّنات واجهة غير مستخدمة على الصفحات العامة، ولا تتجاوز حزمة العميل حدّاً معقولاً يتم قياسه قبل الإطلاق.", "priority": "Should" },
+    { "id": "NFR-005", "categoryAr": "التوافق", "titleEn": "Browser support", "descAr": "يعمل الموقع على المتصفحات الحديثة على الحاسب والجوال.", "metricAr": "آخر إصدارين من Chrome وEdge وSafari وFirefox بدون أخطاء في وحدة التحكم.", "priority": "Must" },
+    { "id": "NFR-006", "categoryAr": "التوافق", "titleEn": "Minimum viewport", "descAr": "يظل التخطيط سليماً على أصغر شاشة جوال شائعة.", "metricAr": "لا يوجد تمرير أفقي ولا تداخل عناصر عند عرض ٣٦٠ بكسل.", "priority": "Must" },
+    { "id": "NFR-007", "categoryAr": "جودة الكود", "titleEn": "Type safety", "descAr": "الكود يمرّ من فحص الأنواع الصارم دون أخطاء أو تحذيرات مكتومة.", "metricAr": "تشغيل فحص TypeScript بدون أي خطأ.", "priority": "Must" },
+    { "id": "NFR-008", "categoryAr": "جودة الكود", "titleEn": "Build integrity", "descAr": "المشروع يُبنى لإصدار الإنتاج بنجاح بعد كل تعديل على البيانات أو الواجهات.", "metricAr": "بناء الإنتاج يكتمل بنجاح دون أخطاء.", "priority": "Must" },
+    { "id": "NFR-009", "categoryAr": "تثبيت التصميم", "titleEn": "Design token freeze", "descAr": "ملف الأنماط الذي يعرّف الهوية لا يُعدَّل: الألوان والخطوط ونصف الأقطار تبقى كما هي.", "metricAr": "مطابقة ملف الأنماط بالنسخة الأصلية بايت ببايت.", "priority": "Must" },
+    { "id": "NFR-010", "categoryAr": "تثبيت التصميم", "titleEn": "No new colours or fonts", "descAr": "أي إضافة جديدة تستخدم رموز الهوية القائمة فقط، ولا تُدخل لوناً أو خطاً أو مكتبة أيقونات جديدة خارج المستخدم في المشروع.", "metricAr": "كل الألوان المستخدمة في العناصر الجديدة مشتقّة من رموز الهوية المعرّفة، ولا توجد قيمة لون مكتوبة مباشرة.", "priority": "Must" },
+    { "id": "NFR-011", "categoryAr": "جودة الكود", "titleEn": "Code style", "descAr": "الكود ملتزم بإعدادات التنسيق والفحص الموجودة في المشروع.", "metricAr": "تشغيل أداة الفحص والتنسيق بدون أخطاء أو ملفات غير منسّقة.", "priority": "Should" },
+    { "id": "NFR-012", "categoryAr": "قابلية الصيانة", "titleEn": "Separation of data and presentation", "descAr": "المحتوى المتغيّر (الوظائف) منفصل عن مكوّنات العرض، ومكوّنات واجهة التنقل والترويسة مشتركة بين الصفحات.", "metricAr": "لا يحتوي ملف الصفحة على أي نص وظيفي مكتوب مباشرة، وكل بيانات الوظائف في وحدة واحدة.", "priority": "Must" },
+    { "id": "NFR-013", "categoryAr": "قابلية التوسع", "titleEn": "Effort to add a job", "descAr": "إضافة وظيفة جديدة عملية تحريرية بسيطة لا تحتاج تعديل واجهة.", "metricAr": "إضافة وظيفة تتم بإضافة سجل واحد باللغتين دون تعديل أي مكوّن، ويظهر تلقائياً في الصفحة والعدّاد.", "priority": "Must" },
+    { "id": "NFR-014", "categoryAr": "إمكانية الوصول", "titleEn": "Colour contrast", "descAr": "نسب التباين كافية لقراءة النصوص فوق الخلفيات الفاتحة والداكنة.", "metricAr": "تحقيق مستوى AA لمعيار WCAG 2.1 (تباين ٤٫٥:١ للنص العادي) في الصفحات الأساسية.", "priority": "Should" },
+    { "id": "NFR-015", "categoryAr": "إمكانية الوصول", "titleEn": "Keyboard operability", "descAr": "كل العناصر التفاعلية قابلة للوصول والاستخدام بلوحة المفاتيح مع مؤشر تركيز مرئي.", "metricAr": "الوصول إلى كل رابط وزر وعنصر قابل للطي بمفتاح Tab واستخدامه بمفتاح Enter.", "priority": "Should" },
+    { "id": "NFR-016", "categoryAr": "إمكانية الوصول", "titleEn": "Screen-reader semantics", "descAr": "استخدام عناصر HTML الدلالية (ترويسة، تنقل، أقسام، قوائم، بطاقة اقتباس) بدل الحاويات العامة.", "metricAr": "قارئ الشاشة يعلن مناطق الصفحة والقوائم والعناصر القابلة للفتح بشكل صحيح.", "priority": "Should" },
+    { "id": "NFR-017", "categoryAr": "التعريب", "titleEn": "Translation completeness", "descAr": "لا يوجد نص غير مترجم في أي من الصفحات العامة.", "metricAr": "تحويل كل صفحات الموقع للعربية لا يُظهر أي جملة إنجليزية غير مقصودة.", "priority": "Must" },
+    { "id": "NFR-018", "categoryAr": "التعريب", "titleEn": "Image alternative text", "descAr": "لكل صورة نص بديل مترجم يصف محتواها.", "metricAr": "كل وسوم الصور تحتوي نصاً بديلاً يتبدّل مع اللغة المختارة.", "priority": "Should" },
+    { "id": "NFR-019", "categoryAr": "الأداء", "titleEn": "External font dependency", "descAr": "الخطوط تُحمَّل من خدمة خارجية حالياً، ما يمثل نقطة ارتباط بشبكة خارجية من ناحية الأداء والخصوصية.", "metricAr": "توثيق القرار قبل الإطلاق: إما الاستضافة المحلية للخطوط أو قبول الاعتماد الخارجي صراحةً.", "priority": "Could" },
+    { "id": "NFR-020", "categoryAr": "الأداء", "titleEn": "Image weight budget", "descAr": "الصور مركّبة ومناسبة الحجم، وتُحمَّل الصور غير المرئية أولاً بشكل مؤجّل.", "metricAr": "لا تتجاوز أي صورة حدّاً معقولاً للحجم بعد الضغط، وتُحمَّل صور أسفل الصفحة بشكل مؤجّل.", "priority": "Should" },
+    { "id": "NFR-021", "categoryAr": "التعريب", "titleEn": "Localised numerals", "descAr": "الأرقام داخل النصوص العربية تُكتب بالأرقام العربية الهندية، وتبقى أرقام العرض القياسية كما في التصميم.", "metricAr": "نصوص العدّ والتواريخ المعروضة للزائر تتبع نمط الأرقام المعتمد لكل لغة.", "priority": "Should" },
+    { "id": "NFR-022", "categoryAr": "التوافق", "titleEn": "No horizontal overflow", "descAr": "لا يظهر تمرير أفقي على أي فاصل قياسي وفي أي من اللغتين.", "metricAr": "عرض الصفحة الكلي يساوي عرض النافذة عند ٣٦٠ و٧٦٨ و١٢٨٠ و١٤٤٠ بكسل، بالعربية والإنجليزية.", "priority": "Must" }
+  ],
+
+  "tech": {
+    "stack": [
+      { "layerAr": "الإطار والتنقل", "choice": "TanStack Start 1.168 + TanStack Router 1.170 (React 19)", "noteAr": "توجيه قائم على الملفات مع عرض من الخادم (SSR) مدمج، وهو ما يجعل محتوى الوظائف مقروءاً لمحركات البحث." },
+      { "layerAr": "البناء والتشغيل", "choice": "Vite 8 + Nitro 3 (preset: cloudflare-module)", "noteAr": "بناء إنتاجي سريع ومخرج قابل للنشر على Cloudflare؛ أمر المعاينة الرسمي هو wrangler dev." },
+      { "layerAr": "الأنماط", "choice": "Tailwind CSS 4 عبر @tailwindcss/vite + tw-animate-css", "noteAr": "الرموز والهوية معرّفة في ملف أنماط واحد، والألوان بصيغة oklch الحديثة." },
+      { "layerAr": "مكوّنات الواجهة", "choice": "Radix UI + 46 مكوّن shadcn/ui", "noteAr": "مكتبة مكوّنات كاملة متاحة في المشروع، والصفحات العامة تستخدم جزءاً بسيطاً منها فقط." },
+      { "layerAr": "الأيقونات", "choice": "lucide-react 0.575", "noteAr": "تُستخدم أيقونة سهم واحدة في عنصر تفاصيل الوظيفة، وهي من نفس عائلة مكتبة المشروع." },
+      { "layerAr": "اللغة", "choice": "TypeScript 5.8 (وضع صارم)", "noteAr": "الوضع الصارم مع فحص الفهارس يفرض التحقق من القيم المُعادة من المصفوفات." },
+      { "layerAr": "إدارة الحزم", "choice": "bun.lock موجود + npm يعمل", "noteAr": "يمكن استخدام bun أو npm؛ تم التحقق من التثبيت والبناء بـ npm." },
+      { "layerAr": "مكتبات متاحة غير مستخدمة", "choice": "TanStack Query، react-hook-form، zod، recharts، embla-carousel", "noteAr": "تُستخدم عند الحاجة لاحقاً (نموذج تقديم، تحليلات، معرض صور) دون إضافة اعتماديات جديدة." }
+    ],
+    "commands": [
+      { "cmd": "npm install", "descAr": "تثبيت الاعتماديات (يعمل أيضاً بـ bun install)." },
+      { "cmd": "npm run dev", "descAr": "تشغيل بيئة التطوير محلياً." },
+      { "cmd": "npm run build", "descAr": "بناء نسخة الإنتاج." },
+      { "cmd": "npx tsc --noEmit", "descAr": "فحص الأنواع دون إخراج ملفات." },
+      { "cmd": "npm run lint", "descAr": "فحص الكود بقواعد ESLint." },
+      { "cmd": "npm run format", "descAr": "تنسيق الملفات بـ Prettier." },
+      { "cmd": "node --experimental-strip-types docs/check-jobs-data.mjs", "descAr": "فحص بيانات الوظائف والتأكد من تطابق اللغتين." }
+    ]
+  },
+
+  "acceptance": [
+    "كل صفحات الموقع تعمل على بيئة إنتاجية بدون أخطاء في وحدة تحكم المتصفح.",
+    "عدد بطاقات الوظائف المعروضة ٢٤ والمطابق لنص العدّ المعروض في الصفحة نفسها.",
+    "كل وظيفة تعرض من أربعة إلى خمسة متطلبات ومن أربعة إلى خمسة مهام في اللغتين، ولا توجد فقرة فارغة أو مكرّرة.",
+    "تبديل اللغة يعمل في كل الصفحات، ويحفظ الاختيار بعد إعادة التحميل، وينعكس التخطيط من اليمين لليسار بالكامل.",
+    "لا يظهر أي تمرير أفقي عند ٣٦٠ و٧٦٨ و١٢٨٠ و١٤٤٠ بكسل في اللغتين.",
+    "ملف أنماط الهوية والألوان والخطوط مطابق للنسخة الأصلية دون أي تغيير.",
+    "المكوّنات الجديدة تستخدم رموز الهوية القائمة فقط، ولا تُدخل أي لون أو خط أو مكتبة جديدة.",
+    "فحص الأنواع وبناء الإنتاج يكتملان بنجاح.",
+    "العنصر الجديد القابل للطي يعمل بلوحة المفاتيح ويمكن قراءته بواسطة قارئ الشاشة.",
+    "زر التقديم يُنشئ رسالة بريد بعنوان الوظيفة الصحيحة لكل بطاقة.",
+    "إرسال نموذج تقديم تجريبي بسيرة ذاتية صحيحة يصل فعلياً إلى صندوق التوظيف، أو يتحوّل إلى فتح البريد برسالة جاهزة إذا لم يُضبط مفتاح الخدمة — وفي الحالتين لا يفقد الطلب.",
+    "كل صفحة من الصفحات الثمانية يمكن الوصول إليها من الترويسة السفلية في أي صفحة أخرى، في اللغتين.",
+    "خريطة الموقع تعيد روابط الصفحات الثابتة وروابط صفحات الوظائف الـ٢٤، وجميعها تعمل.",
+    "إرسال سيرة ذاتية بصيغة PDF أو DOCX يُظهر محتواها كنص في بريد الإشعار، ويظهر عدد الأحرف المستخرجة للمتقدّم في شاشة التأكيد.",
+    "سيرة ذاتية تالفة أو فارغة أو بصيغة قديمة لا تمنع وصول الطلب، ويُوضَّح ذلك في البريد بوضوح."
+  ],
+
+  "risks": [
+    { "code": "R-01", "riskAr": "نشر أسماء عملاء وأرقام وشهادات تمثيلية على أنها حقائق، ما قد يُعرّض الشركة لمخاطرة سمعة أو مطالبة من جهة حقيقية تشبه الأسماء المستخدمة.", "impact": "عالي", "likelihood": "متوسط", "mitigationAr": "تثبيت قائمة المحتوى التمثيلي في قسم «جرد المحتوى»، والمرور عليها قبل الإطلاق لاستبدالها ببيانات موثّقة أو الإشارة إليها بوضوح كأمثلة.", "ownerAr": "يوسف / التسويق" },
+    { "code": "R-02", "riskAr": "استخدام صور أشخاص لا نملك حقوقاً مؤكدة لاستخدامها تجارياً.", "impact": "عالي", "likelihood": "متوسط", "mitigationAr": "استبدال الصور بصور حقيقية للفريق بموافقة كتابية، أو بصور مرخّصة موثّقة المصدر.", "ownerAr": "يوسف / التسويق" },
+    { "code": "R-03", "riskAr": "إعلان ٢٤ وظيفة قد لا تكون جميعها مفتوحة فعلياً، ما يضرّ بثقة المرشحين ويستهلك وقت فريق التوظيف.", "impact": "متوسط", "likelihood": "عالي", "mitigationAr": "مراجعة أسبوعية للقائمة وإغلاق الوظائف المنتهية، مع إبقاء سطر «يتم التحديث أسبوعياً» معبّراً عن واقع التشغيل.", "ownerAr": "فريق التوظيف" },
+    { "code": "R-04", "riskAr": "الاعتماد على تحميل الخطوط من خدمة خارجية يشكّل نقطة ضعف في الأداء والخصوصية وقد يتأخر ظهور النص عند ضعف الشبكة.", "impact": "متوسط", "likelihood": "متوسط", "mitigationAr": "تقييم استضافة الخطوط محلياً وتقليل الأوزان المحمّلة إلى المستخدم فعلياً، مع الإبقاء على تبديل العرض.", "ownerAr": "المطور" },
+    { "code": "R-05", "riskAr": "تحديث الوظائف يتم بتحرير الكود وإعادة النشر لعدم وجود لوحة تحكم، ما يرفع احتمال تأخّر التحديث أو وقوع خطأ تحريري.", "impact": "متوسط", "likelihood": "متوسط", "mitigationAr": "الاعتماد على سكربت فحص البيانات قبل كل نشر، وحسم قرار إضافة لوحة تحكم أو مصدر بيانات خارجي.", "ownerAr": "المطور / التوظيف" },
+    { "code": "R-06", "riskAr": "وميض اتجاه عند أول تحميل للنسخة العربية، لأن اتجاه المستند يُضبط في المتصفح بعد التحميل بينما يُرسَل المستند بلغة إنجليزية.", "impact": "منخفض", "likelihood": "عالي", "mitigationAr": "نقل ضبط اللغة والاتجاه إلى الخادم عند التحميل الأول (قراءة التفضيل عبر ملف تعريف) لتقليل الوميض أو إزالته.", "ownerAr": "المطور" },
+    { "code": "R-07", "riskAr": "نمو عدد الوظائف يطوّل صفحة الوظائف ويزيد حجم المستند المُرسَل، ما قد يضرّ بزمن التحميل على الشبكات البطيئة.", "impact": "متوسط", "likelihood": "متوسط", "mitigationAr": "عند تجاوز حدّ معقول من الوظائف: تقسيم الصفحة على صفحات مرقّمة أو تصفية حسب القسم/الموقع، مع إبقاء المحتوى معروضاً من الخادم.", "ownerAr": "المطور" },
+    { "code": "R-08", "riskAr": "نموذج التقديم يعتمد على خدمة إرسال بريد خارجية؛ فإن لم يُضبط مفتاحها أو انقطعت الخدمة، لن تصل الطلبات مباشرة من الموقع.", "impact": "عالي", "likelihood": "متوسط", "mitigationAr": "التحويل التلقائي إلى فتح البريد برسالة جاهزة عند غياب المفتاح أو فشل الإرسال، مع تنبيه واضح للمستخدم، ومراقبة فشل الإرسال في سجل الأخطاء.", "ownerAr": "المطور / IT" },
+    { "code": "R-09", "riskAr": "استقبال السير الذاتية عبر نموذج الموقع يُنشئ التزاماً بحماية البيانات الشخصية (الاحتفاظ والحذف عند الطلب) وقد لا يكون منظمًا بعد.", "impact": "متوسط", "likelihood": "متوسط", "mitigationAr": "نشر سياسة خصوصية تغطي بيانات المرشحين صراحةً، وربطها من النموذج، وتحديد مدة احتفاظ وطريقة حذف مكتوبتين قبل الإطلاق العام.", "ownerAr": "يوسف / القانوني" }
+  ],
+
+  "openQuestions": [
+    { "code": "Q-01", "questionAr": "هل يبقى الحجز والتواصل عبر البريد المباشر، أم نحتاج نموذج حجز موعد أو ربطاً بتقويم؟", "whyItMattersAr": "يحدد إن كنا سنضيف نموذجاً وخدمة خلفية أم نُبقي الحل الحالي البسيط.", "ownerAr": "يوسف", "blocking": "لا" },
+    { "code": "Q-02", "questionAr": "ما النطاق الرسمي للموقع وأسماء البريد النهائية؟ (النصوص الحالية تستخدم meridianhr.com و careers@)", "whyItMattersAr": "لأن كل أزرار التواصل والتقديم تعتمد على هذه العناوين، وأي خطأ يجعل الإجراءات غير فعّالة.", "ownerAr": "يوسف", "blocking": "نعم" },
+    { "code": "Q-03", "questionAr": "هل الأرقام المعروضة (12k، 98%، 18d، 3.2x، 45 قطاعاً) أرقام فعلية موثّقة أم محتوى تسويقي؟", "whyItMattersAr": "نشر أرقام غير دقيقة في موقع شركة قد يُعدّ تضليلاً ويحتاج إثباتاً عند الاعتراض.", "ownerAr": "يوسف / التسويق", "blocking": "نعم" },
+    { "code": "Q-04", "questionAr": "من يعتمد أسماء العملاء والشهادات قبل النشر العام، وهل توجد موافقات مكتوبة منهم؟", "whyItMattersAr": "استخدام اسم عميل أو اقتباسه دون موافقة مخاطرة قانونية.", "ownerAr": "يوسف", "blocking": "نعم" },
+    { "code": "Q-05", "questionAr": "نموذج التقديم مبني ومُختبر، والمتبقي: ما بريد استقبال الطلبات، وهل نوفّر حساب خدمة إرسال بنطاق مرسِل موثّق؟", "whyItMattersAr": "بدون مفتاح الخدمة يتحوّل النموذج تلقائياً إلى فتح البريد — يعمل، لكنه أقل سلاسة وأكثر عرضة لضياع الطلبات.", "ownerAr": "يوسف / التوظيف / IT", "blocking": "نعم" },
+    { "code": "Q-11", "questionAr": "هل تحتاج صفحتا الخصوصية والشروط مراجعة قانونية قبل النشر العام، وهل سيُضاف إشعار ملفات تعريف عند إضافة أدوات تحليل؟", "whyItMattersAr": "الصياغة الحالية مبنية على الممارسات الشائعة، وقد تحتاج تخصيصاً بحسب جهة التسجيل والدولة.", "ownerAr": "يوسف / القانوني", "blocking": "نعم" },
+    { "code": "Q-06", "questionAr": "هل نحتاج لوحة تحكم لتحديث الوظائف دون كود؟ ومن سيديرها؟", "whyItMattersAr": "يحدد شكل التسليم النهائي وميزانية الصيانة، ويحل مخاطرة تأخّر التحديث اليدوي.", "ownerAr": "يوسف / التوظيف", "blocking": "لا" },
+    { "code": "Q-07", "questionAr": "هل نستضيف الخطوط محلياً بدل خدمة الخطوط الخارجية؟", "whyItMattersAr": "تحسين الأداء وتقليل الاعتماد على طرف ثالث، مقابل زيادة وزن الموقع.", "ownerAr": "المطور", "blocking": "لا" },
+    { "code": "Q-08", "questionAr": "هل نضيف صفحات جديدة: تفاصيل كل وظيفة، تواصل، أسئلة شائعة، مدونة، سياسة خصوصية؟", "whyItMattersAr": "يحدد حجم المرحلة التالية من العمل، ويؤثر على التنقل وبنية الروابط.", "ownerAr": "يوسف", "blocking": "لا" },
+    { "code": "Q-09", "questionAr": "ما اللغة الافتراضية للزائر الجديد: العربية أم الإنجليزية؟ (الحالي إنجليزي)", "whyItMattersAr": "يحدد أول انطباع لجمهور الخليج ومصر، ويؤثر على قرار ضبط اللغة من الخادم.", "ownerAr": "يوسف", "blocking": "نعم" },
+    { "code": "Q-10", "questionAr": "هل نضيف أدوات تحليل زيارات، وهل نحتاج إشعار ملفات تعريف للمستخدم؟", "whyItMattersAr": "يحدد ما إذا كانت هناك التزامات إشعار وموافقة على الموقع.", "ownerAr": "يوسف", "blocking": "لا" }
+  ]
+}

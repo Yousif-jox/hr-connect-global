@@ -1,0 +1,112 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system — Acwad HR (Deep Navy Corporate direction)
+ * All colors use oklch. Fonts: Manrope (EN body), Fraunces (EN display),
+ * Tajawal (Arabic). Arabic overrides font stacks via [dir="rtl"].
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Brand tokens — Deep Navy Corporate */
+  --color-navy: var(--navy);
+  --color-navy-800: var(--navy-800);
+  --color-navy-700: var(--navy-700);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-cream: var(--cream);
+  --color-mist: var(--mist);
+  --color-ink: var(--ink);
+  --color-slate-2: var(--slate-2);
+
+  --font-sans: "Manrope", "Tajawal", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", "Tajawal", ui-serif, Georgia, serif;
+}
+
+:root {
+  --radius: 1rem;
+
+  /* Brand palette */
+  --navy: oklch(0.270 0.060 253.9);
+  --navy-800: oklch(0.342 0.076 251.0);
+  --navy-700: oklch(0.412 0.091 250.6);
+  --gold: oklch(0.737 0.133 87.8);
+  --gold-soft: oklch(0.872 0.078 92.1);
+  --cream: oklch(0.967 0.008 91.5);
+  --mist: oklch(0.960 0.009 258.3);
+  --ink: oklch(0.239 0.032 252.9);
+  --slate-2: oklch(0.522 0.036 252.9);
+
+  /* Semantic tokens mapped to the brand */
+  --background: var(--cream);
+  --foreground: var(--ink);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--ink);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--ink);
+  --primary: var(--gold);
+  --primary-foreground: var(--navy);
+  --secondary: var(--mist);
+  --secondary-foreground: var(--navy);
+  --muted: var(--mist);
+  --muted-foreground: var(--slate-2);
+  --accent: var(--mist);
+  --accent-foreground: var(--navy);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(0.239 0.032 252.9 / 8%);
+  --input: oklch(0.239 0.032 252.9 / 12%);
+  --ring: var(--gold);
+}
+
+/* Arabic-first font stacks when the page flips to RTL */
+[dir="rtl"] {
+  --font-sans: "Tajawal", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Tajawal", "Manrope", ui-serif, Georgia, serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
