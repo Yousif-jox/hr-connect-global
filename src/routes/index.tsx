@@ -242,13 +242,9 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [lang, setLang] = useState<Lang>("en");
+  const { lang, toggle } = useLang();
   const t = copy[lang];
 
-  useEffect(() => {
-    document.documentElement.lang = t.htmlLang;
-    document.documentElement.dir = t.dir;
-  }, [t.htmlLang, t.dir]);
 
   return (
     <div dir={t.dir} lang={t.htmlLang} className="min-h-screen bg-cream font-sans">
