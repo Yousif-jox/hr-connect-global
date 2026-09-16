@@ -27,8 +27,8 @@ const copy = {
       titleGold: "hundreds of teams",
       titleTail: " that grow with confidence.",
       sub: "Recruitment, payroll, compliance and training — run for you, so you can run the business.",
-      ctaPrimary: "Start your search",
-      ctaSecondary: "Download capabilities",
+      ctaPrimary: "Browse open roles",
+      ctaSecondary: "Hiring requirements",
       stats: [
         { value: "12k", label: "people placed" },
         { value: "98%", label: "payroll accuracy" },
@@ -129,8 +129,8 @@ const copy = {
       titleGold: "مئات الفرق",
       titleTail: " التي تنمو بثقة.",
       sub: "التوظيف والرواتب والامتثال والتدريب — نديرها عنك، لتدير أنت العمل.",
-      ctaPrimary: "ابدأ معنا",
-      ctaSecondary: "حمّل ملف قدراتنا",
+      ctaPrimary: "تصفّح الوظائف المتوفرة",
+      ctaSecondary: "شروط التوظيف",
       stats: [
         { value: "12k", label: "شخص تم توظيفهم" },
         { value: "98%", label: "دقة الرواتب" },
@@ -315,18 +315,18 @@ function Index() {
               {t.hero.sub}
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a
-                href="#contact"
+              <Link
+                to="/jobs"
                 className="rounded-full bg-gold px-6 py-3 text-sm font-bold text-navy transition-colors hover:bg-gold-soft"
               >
                 {t.hero.ctaPrimary}
-              </a>
-              <a
-                href="#services"
+              </Link>
+              <Link
+                to="/requirements"
                 className="rounded-full border border-cream/25 px-6 py-3 text-sm text-cream transition-colors hover:bg-cream/5"
               >
                 {t.hero.ctaSecondary}
-              </a>
+              </Link>
             </div>
 
             <div className="mt-10 grid max-w-xl grid-cols-3 gap-4">
@@ -417,6 +417,20 @@ function Index() {
                 <p className="mt-2 text-sm leading-relaxed text-slate-2">{item.desc}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              to="/jobs"
+              className="rounded-full bg-navy px-6 py-3 text-sm font-bold text-cream transition-colors hover:bg-navy-800"
+            >
+              {t.nav.jobs}
+            </Link>
+            <Link
+              to="/requirements"
+              className="rounded-full border border-ink/15 px-6 py-3 text-sm text-ink transition-colors hover:border-gold hover:text-gold"
+            >
+              {t.nav.requirements}
+            </Link>
           </div>
         </div>
       </section>
