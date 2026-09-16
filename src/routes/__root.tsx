@@ -77,12 +77,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Meridian HR | Recruitment, Payroll, Compliance & Training" },
+      {
+        name: "description",
+        content:
+          "Meridian HR is your end-to-end HR partner: recruitment, payroll, compliance and training. Bilingual English/Arabic.",
+      },
+      { property: "og:title", content: "Meridian HR | End-to-End HR Services" },
+      {
+        property: "og:description",
+        content:
+          "Recruitment, payroll, compliance and training — run for you, so you can run the business.",
+      },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Meridian HR" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
     ],
@@ -90,6 +98,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: appCss,
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Tajawal:wght@400;500;700;800&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
