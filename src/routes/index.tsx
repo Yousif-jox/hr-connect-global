@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 
 import heroTeam from "@/assets/hero-team.jpg";
 import outcomesDashboard from "@/assets/outcomes-dashboard.jpg";
@@ -7,8 +6,7 @@ import headshotLayla from "@/assets/headshot-layla.jpg";
 import headshotOmar from "@/assets/headshot-omar.jpg";
 import headshotDana from "@/assets/headshot-dana.jpg";
 import headshotRami from "@/assets/headshot-rami.jpg";
-
-type Lang = "en" | "ar";
+import { useLang } from "@/lib/lang";
 
 const copy = {
   en: {
